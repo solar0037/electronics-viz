@@ -2,11 +2,14 @@ import streamlit as st
 
 
 def main():
-    st.set_page_config("전자회로 설명서")
-    st.title("전자회로 설명서")
-    st.write("아날로그/디지털 회로를 시각적으로 상호작용할 수 있게 만든 프로젝트입니다.")
-    st.write("사용 기술: Python, Streamlit, Schemdraw 등")
-    st.link_button("GitHub", "https://github.com/solar0037/whatilearned")
+    home_page = st.Page("pages/home.py", title="Home", icon=":material/home:")
+    rc_lpf_page = st.Page("pages/rc_lpf.py", title="RC LPF")
+    rl_hpf_page = st.Page("pages/rl_hpf.py", title="RL HPF")
+    op_amp_page = st.Page("pages/op_amp.py", title="Op Amp")
+    diode_page = st.Page("pages/diode.py", title="Diodes")
+    mosfet_page = st.Page("pages/mosfet.py", title="MOSFET")
+    pg = st.navigation([home_page, rc_lpf_page, rl_hpf_page, op_amp_page, diode_page, mosfet_page])
+    pg.run()
 
 
 if __name__ == '__main__':
