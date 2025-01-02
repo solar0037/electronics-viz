@@ -22,8 +22,8 @@ v_DS = cols[1].slider('$v_{DS}$ (V)', 0.0, 5.0, 0.1)
 V_t = 0.5
 k_n = 2e-3
 v_OV = v_GS - V_t
-cols[1].latex('V_{t} = 0.5\mathrm{V}')
-cols[1].latex('k_{n} = k\'_{n}(W/L) = 2\mathrm{mA/V^2}')
+cols[1].latex(r'V_{t} = 0.5\mathrm{V}')
+cols[1].latex(r'k_{n} = k\'_{n}(W/L) = 2\mathrm{mA/V^2}')
 if v_GS<V_t:
     cols[1].write('MOSFET Operation: Cutoff Region')
     cols[1].write('Drain Current($i_{D}$) = 0mA')
@@ -55,11 +55,11 @@ st.header('Equivalent Circuit')
 st.pyplot(plt.gcf())
 
 st.header('MOSFET Operation')
-st.write('Triode Region ($v_{DS} < v_{OV}$)')
+st.write(r'Triode Region ($v_{DS} < v_{OV}$)')
 st.latex(r'''
 i_{D}=k_{n}(v_{OV}v_{DS}-\frac{1}{2}v_{DS}^2)
 ''')
-st.write('Saturation Region ($v_{DS} \ge v_{OV}$)')
+st.write(r'Saturation Region ($v_{DS} \ge v_{OV}$)')
 st.latex(r'''
 i_{D}=\frac{1}{2}k_{n}v_{OV}^2
 ''')
