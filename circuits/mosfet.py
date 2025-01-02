@@ -23,7 +23,7 @@ V_t = 0.5
 k_n = 2e-3
 v_OV = v_GS - V_t
 cols[1].latex(r'V_{t} = 0.5\mathrm{V}')
-cols[1].latex(r'k_{n} = k\'_{n}(W/L) = 2\mathrm{mA/V^2}')
+cols[1].latex(r"k_{n} = k'_{n}(W/L) = 2\mathrm{mA/V^2}")
 if v_GS<V_t:
     cols[1].write('MOSFET Operation: Cutoff Region')
     cols[1].write('Drain Current($i_{D}$) = 0mA')
