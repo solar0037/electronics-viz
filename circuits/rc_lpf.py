@@ -8,7 +8,7 @@ import math
 
 @st.cache_data
 def draw_plots():
-    st.title("RC LPF")
+    st.title("RC Low-pass Filter")
 
     with schemdraw.Drawing() as d:
         V = elm.SourceV().label('$v_{i}$')

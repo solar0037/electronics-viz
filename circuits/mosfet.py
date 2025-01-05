@@ -2,39 +2,56 @@ import streamlit as st
 import schemdraw
 from schemdraw import elements as elm
 import matplotlib.pyplot as plt
-import math
 
-st.title("MOSFET")
+st.title("MOS Field-Effect Transistor (MOSFET)")
 
-cols = st.columns(2)
+@st.cache_data
+def draw_circuit():
+    with schemdraw.Drawing() as d:
+        V_GS = elm.SourceV().label(['+','$v_{GS}$','-'])
+        elm.Ground().at(V_GS.start)
+        elm.Line().right(d.unit/2).at(V_GS.end)
+        NMOS = elm.AnalogNFet().reverse().right().anchor('gate')
+        elm.Label('G').at(NMOS.gate)
+        elm.Label('S').at(NMOS.source)
+        elm.Label('D').at(NMOS.drain)
+        elm.Line().down().at(NMOS.source)
+        elm.Ground()
+        L = elm.Line().right().at(NMOS.drain)
+        V_DS = elm.SourceV().at((L.end[0], L.end[1]-d.unit)).label(['+','$V_{DS}$','-'])
+        elm.Line().down(d.unit/2).at(V_DS.start)
+        elm.Ground()
 
-with schemdraw.Drawing() as d:
-    NMOS = elm.AnalogNFet().reverse()
-    elm.Label('G').at(NMOS.gate)
-    elm.Label('S').at(NMOS.source)
-    elm.Label('D').at(NMOS.drain)
+    d.draw()
+    st.pyplot(plt.gcf())
 
-d.draw()
-cols[0].pyplot(plt.gcf())
+draw_circuit()
 
-v_GS = cols[1].slider('$v_{GS}$ (V)', 0.0, 5.0, 0.1)
-v_DS = cols[1].slider('$v_{DS}$ (V)', 0.0, 5.0, 0.1)
+v_GS = st.slider('$v_{GS}$ (V)', 0.0, 5.0, 0.1)
+v_DS = st.slider('$v_{DS}$ (V)', 0.0, 5.0, 0.1)
 V_t = 0.5
 k_n = 2e-3
 v_OV = v_GS - V_t
-cols[1].latex(r'V_{t} = 0.5\mathrm{V}')
-cols[1].latex(r"k_{n} = k'_{n}(W/L) = 2\mathrm{mA/V^2}")
 if v_GS<V_t:
-    cols[1].write('MOSFET Operation: Cutoff Region')
-    cols[1].write('Drain Current($i_{D}$) = 0mA')
+    st.write('#### MOSFET Operation:')
+    st.write('Cutoff Region')
+    st.write('#### Drain Current')
+    st.write('$i_{D}$ = 0mA')
 else:
     if v_DS<v_OV:
         i_D = k_n*(v_OV*v_DS-0.5*v_DS**2)
-        cols[1].write('MOSFET Operation: Triode Region')
+        st.write('#### MOSFET Operation:')
+        st.write('Triode Region')
     else:
         i_D = 0.5*k_n*v_OV**2
-        cols[1].write('MOSFET Operation: Saturation Region')
-    cols[1].write('Drain Current($i_{D}$) = ' + f'{i_D*1e3:.3f}mA')
+        st.write('#### MOSFET Operation:')
+        st.write('Saturation Region')
+    st.write('#### Drain Current:')
+    st.write('$i_{D} = ' + f'{i_D*1e3:.3f}' + '\mathrm{mA}$')
+
+st.header('Parameters')
+st.latex(r'V_{t} = 0.5\mathrm{V}')
+st.latex(r"k_{n} = k'_{n}(W/L) = 2\mathrm{mA/V^2}")
 
 with schemdraw.Drawing() as d:
     G = elm.Line().dot(open=True)

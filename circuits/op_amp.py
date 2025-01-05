@@ -3,38 +3,40 @@ import schemdraw
 import schemdraw.elements as elm
 import matplotlib.pyplot as plt
 
-st.title("Op Amp - Inverting Configuration")
+st.title("Operational Amplifier")
 
-col_slider, col_plot = st.columns(2)
+@st.cache_data
+def draw_circuit():
+    with schemdraw.Drawing() as d:
+        op = elm.Opamp(leads=True)
+        elm.Line().down(d.unit/4).at(op.in2)
+        elm.Ground(lead=False)
+        Rin = elm.Resistor().at(op.in1).left().idot().label('$R_{1}$', loc='top').label('$v_{I}$', loc='left')
+        elm.Line().up(d.unit/2).at(op.in1)
+        elm.Resistor().tox(op.out).label('$R_2$')
+        elm.Line().toy(op.out).dot()
+        elm.Line().right(d.unit/4).at(op.out).label('$v_{o}$', loc='right')
 
-# 사용자 입력 값
-v_in = col_slider.slider("Input Voltage (V)", -10.0, 10.0, 1.0)
-r1 = col_slider.slider("R1 Resistance (Ω)", 1, 10000, 1000)
-r2 = col_slider.slider("R2 Resistance (Ω)", 1, 10000, 1000)
+    d.draw()
+    st.pyplot(plt.gcf())
 
-# 회로 다이어그램 생성
-with schemdraw.Drawing() as d:
-    op = elm.Opamp(leads=True)
-    elm.Line().down(d.unit/4).at(op.in2)
-    elm.Ground(lead=False)
-    Rin = elm.Resistor().at(op.in1).left().idot().label('$R_{1}$', loc='top').label('$v_{I}$', loc='left')
-    elm.Line().up(d.unit/2).at(op.in1)
-    elm.Resistor().tox(op.out).label('$R_2$')
-    elm.Line().toy(op.out).dot()
-    elm.Line().right(d.unit/4).at(op.out).label('$v_{o}$', loc='right')
+draw_circuit()
 
-# Streamlit에 다이어그램 표시
-d.draw()
-col_plot.pyplot(plt.gcf())
+v_in = st.slider(r'$v_i (\mathrm V)$', -10.0, 10.0, 1.0)
+r1 = st.slider(r'$R_1 (\Omega)$', 1, 10000, 1000)
+r2 = st.slider(r'$R_2 (\Omega)$', 1, 10000, 1000)
 
-# 회로 분석 결과 출력
 v_out = (r2 / r1) * v_in
 gain = r2 / r1
+st.write('#### Output Voltage:')
+st.write(r'$v_o = ' + f'{v_out:.2f}' + r'\mathrm V$')
+st.write('#### Overal Voltage Gain:')
+st.write(r'$G = ' + f'{gain:.2f}' + r'\mathrm V$')
+
+st.header('Description')
 st.latex(r'''
-        v_{o}=-\frac{R_{2}}{R_{1}} v_{i}
+        v_{o}=-\frac{R_2}{R_1} v_i
         ''')
 st.latex(r'''
-        G\equiv\frac{v_{o}}{v_{I}}=-\frac{R_{2}}{R_{1}}
+        G\equiv\frac{v_o}{v_i}=-\frac{R_2}{R_1}
         ''')
-st.write(f"Output Voltage (V): {v_out:.2f}")
-st.write(f"Voltage Gain (V/V): {gain:.2f}")

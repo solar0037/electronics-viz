@@ -6,32 +6,36 @@ import math
 
 st.title("Diodes")
 
-col_slider, col_plot = st.columns(2)
-
-# 사용자 입력 값
-v_DD = col_slider.slider("Input Voltage (V)", -10.0, 10.0, 1.0)
-r = col_slider.slider("Resistance (Ω)", -100.0, 100.0, 10.0)
-
-with schemdraw.Drawing() as d:
-    V1 = elm.SourceV().label('$V_{DD}$')
-    elm.Line().right(d.unit*.75)
-    R = elm.Resistor().right().label('R')
-    elm.Line().right(d.unit*.75).at(R.end)
-    elm.Diode().down().label('$v_{D}$')
-    elm.Line().to(V1.start)
+@st.cache_data
+def draw_circuit():
+    with schemdraw.Drawing() as d:
+        V1 = elm.SourceV().label('$V_{DD}$')
+        elm.Line().right(d.unit*.5)
+        R = elm.Resistor().right().label('R')
+        elm.Line().right(d.unit*.5).at(R.end)
+        elm.Diode().down().label(['+','$v_D$','-'])
+        elm.Line().to(V1.start)
 
 
-d.draw()
-col_plot.pyplot(plt.gcf())
+    d.draw()
+    st.pyplot(plt.gcf())
 
-# 회로 분석 결과 출력
-I_D = (v_DD-0.7)/r
+draw_circuit()
+
+v_DD = st.slider(r'$v_i (\mathrm V)$', 0.0, 10.0, 1.0)
+R = st.slider(r'$R (\Omega)$', 1.0, 1e3, 10.0)
+
+I_D = (v_DD-0.7)/R
 I_S = I_D*math.exp(-0.7/0.025)
+st.write('#### Diode Current:')
+st.write(f'$I_D = {I_D:.2f}' + r'\mathrm A$')
+st.write('#### Reverse-bias Saturation Current:')
+st.write(f'$I_S = {I_S}' + r'\mu\mathrm{A}$')
+
+st.header('Description')
 st.latex(r'''
-        I_{D}=I_{S} e^{(V_{D}/V_{T})}
+        I_D=I_S e^{(V_D/V_T)}
         ''')
 st.latex(r'''
-        I_{D}=\frac{V_{DD}-V_{D}}{R}
+        I_D=\frac{V_{DD}-V_D}{R}
         ''')
-st.write(f"Diode Current (A): {I_D:.2f}")
-st.write(f"Reverse-bias saturation Current (A): {I_S:.20f}")
