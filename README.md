@@ -1,7 +1,7 @@
-# 전자회로 설명서
-아날로그/디지털 회로를 시각적으로 상호작용할 수 있게 만든 프로젝트입니다.
+# Electronics Handbook | [한국어](./README_ko.md)
+Visually interactive analog/digital circuits.
 
-# 사용 기술
+# Tech Stack
 - Python
 - Streamlit
 - Schemdraw
