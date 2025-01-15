@@ -5,11 +5,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 
+st.title("RL High-pass Filter")
+st.write("""A high-pass filter (HPF) is an filter that passes signals with a frequency higher than a certain cutoff frequency and attenuates signals with frequencies lower than the cutoff frequency.
+A resistor and either a capacitor or an inductor can be configured as a first-order high-pass filter.
+-- [Wikipedia](https://en.wikipedia.org/wiki/High-pass_filter)""")
+
 
 @st.cache_data
 def draw_plots():
-    st.title("RL High-pass Filter")
-
     with schemdraw.Drawing() as d:
         V = elm.SourceV().label('$v_{i}$')
         Res = elm.Resistor().right().label('R')

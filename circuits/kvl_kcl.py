@@ -4,6 +4,13 @@ from schemdraw import elements as elm
 import matplotlib.pyplot as plt
 
 st.title("KVL/KCL (Kirchhoff's Voltage/Current Law)")
+st.write("""Kirchhoff's circuit laws are two equalities that deal with the current and voltage in electrical circuits.
+Kirchhoff's voltage law states that the algebraic sum of all voltages around a closed path (or loop) is zero.
+Kirchhoff's current law states that the algebraic sum of all currents around a node (or a closed boundary) is zero.
+-- [Wikipedia](https://en.wikipedia.org/wiki/Kirchhoff%27s_circuit_laws)""")
+
+st.write(r'KVL: $\sum{V} = 0$')
+st.write(r'KCL: $\sum{I} = 0$')
 
 @st.cache_data
 def draw_kvl_circuit():
@@ -43,8 +50,3 @@ st.write(r'$I_1 = 0.1\mathrm{mA}$')
 st.write('$I_1 = I_2 + I_3$')
 I_2 = st.slider(r'$I_2 (\mathrm{mA})$', 0.0, 0.1, 0.01)
 st.write('$I_3 = ' + f'{0.1-I_2:.2f}' + r'\mathrm{mA}$')
-
-st.header('Description')
-st.write('### KVL: $\sum{V} = 0$')
-st.write('### KCL: $\sum{I} = 0$')
-st.write('')

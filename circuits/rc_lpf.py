@@ -5,11 +5,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 
+st.title("RC Low-pass Filter")
+st.write("""A low-pass filter (LPF) is a filter that passes signals with a frequency lower than a certain cutoff frequency and attenuates signals with frequencies higher than the cutoff frequency.
+One simple low-pass filter circuit consists of a resistor in series with a load, and a capacitor in parallel with the load.
+-- [Wikipedia](https://en.wikipedia.org/wiki/Low-pass_filter)""")
+
 
 @st.cache_data
 def draw_plots():
-    st.title("RC Low-pass Filter")
-
     with schemdraw.Drawing() as d:
         V = elm.SourceV().label('$v_{i}$')
         Res = elm.Resistor().right().label('R')

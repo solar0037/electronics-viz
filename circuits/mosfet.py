@@ -4,6 +4,10 @@ from schemdraw import elements as elm
 import matplotlib.pyplot as plt
 
 st.title("MOS Field-Effect Transistor (MOSFET)")
+st.write("""The metal-oxide-semiconductor field-effect transistor (MOSFET) is a type of field-effect transistor (FET), most commonly fabricated by the controlled oxidation of silicon.
+It has an insulated gate, the voltage of which determines the conductivity of the device.
+This ability to change conductivity with the amount of applied voltage can be used for amplifying or switching electronic signals.
+-- [Wikipedia](https://en.wikipedia.org/wiki/MOSFET)""")
 
 @st.cache_data
 def draw_circuit():

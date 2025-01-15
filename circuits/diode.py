@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 import math
 
 st.title("Diodes")
+st.write("""A diode is a two-terminal electronic component that conducts the current primarily in one direction.
+It has low (ideally zero) resistance in one direction and high (ideally infinite) resistance in the other.
+-- [Wikipedia](https://en.wikipedia.org/wiki/Diode)""")
 
 @st.cache_data
 def draw_circuit():
