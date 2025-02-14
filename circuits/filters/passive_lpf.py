@@ -5,21 +5,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 
-st.title("RC Low-pass Filter")
-st.write("""A low-pass filter (LPF) is a filter that passes signals with a frequency lower than a certain cutoff frequency and attenuates signals with frequencies higher than the cutoff frequency.
-One simple low-pass filter circuit consists of a resistor in series with a load, and a capacitor in parallel with the load.
--- [Wikipedia](https://en.wikipedia.org/wiki/Low-pass_filter)""")
-
-
 @st.cache_data
 def draw_plots():
     with schemdraw.Drawing() as d:
-        V = elm.SourceV().label('$v_{i}$')
-        Res = elm.Resistor().right().label('R')
-        Cap = elm.Capacitor().down(d.unit).at(Res.end).label('C')
+        V = elm.SourceV().label('$v_{i}(t)$')
+        Res = elm.Resistor().right().label('$R$')
+        Cap = elm.Capacitor().down(d.unit).at(Res.end).label('$C$')
         elm.Line().to(V.start)
         plus = elm.Line().right(d.unit/2).at(Res.end).dot(open=True)
-        elm.Gap().down().label(['+','$v_C$','-']).at(plus.end)
+        elm.Gap().down().label(['+','$v_o$','-']).at(plus.end)
         elm.Line().right(d.unit/2).at(Cap.end).dot(open=True)
 
     d.draw()
@@ -61,9 +55,6 @@ def draw_plots():
     cols[1].pyplot(plt.gcf())
 
 
-draw_plots()
-
-
 def transfer_function(f: int | float) -> list[float, float]:
     V_in = 1
     R = 1e3
@@ -76,12 +67,13 @@ def transfer_function(f: int | float) -> list[float, float]:
     return magnitude, phase
 
 
-f = st.select_slider(r'$f (\mathrm Hz)$', [1, 10, 1e2, 1e3, 1e4, 15.92e3, 1e5, 1e6])
-res = transfer_function(f)
-st.write(f'#### Signal Attenuation: {'Yes' if f>1e3 else 'No'}')
-st.write(r'$H(f) = ' + f'{res[0]:.2f}' + r' \mathrm V/\mathrm V$')
-st.write(r'$\theta = ' + f'{int(res[1])}' + r' \mathrm \degree$')
-st.write('### Parameters')
-st.write(r'$R = 1\mathrm k \Omega$')
-st.write(r'$C = 10 \mathrm n \mathrm F$')
-st.write(r'$f_c = 15.92\mathrm{kHz}$')
+def draw_sliders():
+    f = st.select_slider(r'$f (\mathrm Hz)$', [1, 10, 1e2, 1e3, 1e4, 15.92e3, 1e5, 1e6])
+    res = transfer_function(f)
+    st.write(f'#### Signal Attenuation: {'Yes' if f>1e3 else 'No'}')
+    st.write(r'$H(f) = ' + f'{res[0]:.2f}' + r' \mathrm V/\mathrm V$')
+    st.write(r'$\theta = ' + f'{int(res[1])}' + r' \mathrm \degree$')
+    st.write('### Parameters')
+    st.write(r'$R = 1\mathrm k \Omega$')
+    st.write(r'$C = 10 \mathrm n \mathrm F$')
+    st.write(r'$f_c = 15.92\mathrm{kHz}$')

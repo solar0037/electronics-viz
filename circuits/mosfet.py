@@ -51,7 +51,7 @@ else:
         st.write('#### MOSFET Operation:')
         st.write('Saturation Region')
     st.write('#### Drain Current:')
-    st.write('$i_{D} = ' + f'{i_D*1e3:.3f}' + '\mathrm{mA}$')
+    st.write('$i_{D} = ' + f'{i_D*1e3:.3f}' + r'\mathrm{mA}$')
 
 st.header('Parameters')
 st.latex(r'V_{t} = 0.5\mathrm{V}')
